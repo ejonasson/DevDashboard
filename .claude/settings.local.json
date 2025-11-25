@@ -1,7 +1,16 @@
 {
+  "permissions": {
+    "allow": [
+      "mcp__laravel-boost__list-artisan-commands",
+      "Bash(vendor/bin/pint:*)",
+      "Bash(php artisan test:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)"
+    ]
+  },
+  "enableAllProjectMcpServers": true,
   "enabledMcpjsonServers": [
     "laravel-boost",
     "herd"
-  ],
-  "enableAllProjectMcpServers": true
+  ]
 }
