@@ -1,0 +1,20 @@
+{
+    "mcpServers": {
+        "laravel-boost": {
+            "command": "/Users/erikjonasson/Library/Application Support/Herd/bin/php84",
+            "args": [
+                "/Users/erikjonasson/Sites/DevDashboard/artisan",
+                "boost:mcp"
+            ]
+        },
+        "herd": {
+            "command": "/Users/erikjonasson/Library/Application Support/Herd/bin/php84",
+            "args": [
+                "/Applications/Herd.app/Contents/Resources/herd-mcp.phar"
+            ],
+            "env": {
+                "SITE_PATH": "/Users/erikjonasson/Sites/DevDashboard"
+            }
+        }
+    }
+}
