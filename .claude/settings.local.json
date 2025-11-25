@@ -5,7 +5,8 @@
       "Bash(vendor/bin/pint:*)",
       "Bash(php artisan test:*)",
       "Bash(git add:*)",
-      "Bash(git commit:*)"
+      "Bash(git commit:*)",
+      "Bash(php artisan make:test:*)"
     ]
   },
   "enableAllProjectMcpServers": true,
