@@ -34,6 +34,10 @@ This application is a Laravel application and its main Laravel ecosystems packag
 - Stick to existing directory structure - don't create new base folders without approval.
 - Do not change the application's dependencies without approval.
 
+## Git Workflow
+- When you are done making changes for a command, commit the changes.
+- The commit message must include the name of the AI agent who made the changes.
+
 ## Frontend Bundling
 - If the user doesn't see a frontend change reflected in the UI, it could mean they need to run `npm run build`, `npm run dev`, or `composer run dev`. Ask them.
 
