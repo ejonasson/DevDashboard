@@ -9,7 +9,8 @@
       "Bash(php artisan make:test:*)",
       "mcp__laravel-boost__list-routes",
       "mcp__laravel-boost__search-docs",
-      "Bash(php artisan route:list:*)"
+      "Bash(php artisan route:list:*)",
+      "Bash(cat:*)"
     ]
   },
   "enableAllProjectMcpServers": true,

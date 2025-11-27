@@ -9,5 +9,11 @@ new class extends Component
 ?>
 
 <div>
-    Deployment
+    <flux:callout icon="exclamation-circle">
+        <flux:callout.heading>No Integrations</flux:callout.heading>
+        <flux:callout.text>
+            We haven't yet added an integration!
+        </flux:callout.text>
+    </flux:callout>
+
 </div>

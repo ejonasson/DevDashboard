@@ -5,16 +5,13 @@
     </head>
     <body class="min-h-screen bg-white dark:bg-zinc-800">
         <!-- Sidebar - Hover Expandable -->
-        <aside class="group fixed left-0 top-0 z-40 flex h-screen w-16 flex-col overflow-hidden border-r border-zinc-200 bg-zinc-50 transition-all duration-300 ease-in-out hover:w-64 dark:border-zinc-700 dark:bg-zinc-900">
+        <aside class="group fixed left-0 top-0 z-40 flex h-screen w-16 flex-col overflow-hidden border-r border-zinc-200 bg-zinc-50 transition-all duration-300 ease-in-out dark:border-zinc-700 dark:bg-zinc-900">
             <!-- Logo -->
             <div class="flex h-16 shrink-0 items-center px-4">
                 <a href="{{ route('dashboard') }}" class="flex items-center gap-3" wire:navigate>
                     <div class="shrink-0">
                         <x-app-logo-icon class="h-8 w-8" />
                     </div>
-                    <span class="whitespace-nowrap opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-                        {{ config('app.name', 'Laravel') }}
-                    </span>
                 </a>
             </div>
 
@@ -26,9 +23,6 @@
                    wire:navigate
                    aria-label="Dashboard">
                     <flux:icon.home class="h-6 w-6 shrink-0" />
-                    <span class="whitespace-nowrap opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-                        {{ __('Dashboard') }}
-                    </span>
                 </a>
 
                 <!-- Version Control -->
@@ -37,9 +31,6 @@
                    wire:navigate
                    aria-label="Version Control">
                     <flux:icon.code-bracket class="h-6 w-6 shrink-0" />
-                    <span class="whitespace-nowrap opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-                        {{ __('Version Control') }}
-                    </span>
                 </a>
 
                 <!-- Planning -->
@@ -48,9 +39,6 @@
                    wire:navigate
                    aria-label="Planning">
                     <flux:icon.clipboard-document-list class="h-6 w-6 shrink-0" />
-                    <span class="whitespace-nowrap opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-                        {{ __('Planning') }}
-                    </span>
                 </a>
 
                 <!-- Deployment -->
@@ -59,9 +47,6 @@
                    wire:navigate
                    aria-label="Deployment">
                     <flux:icon.rocket-launch class="h-6 w-6 shrink-0" />
-                    <span class="whitespace-nowrap opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-                        {{ __('Deployment') }}
-                    </span>
                 </a>
             </nav>
 
@@ -70,27 +55,12 @@
 
             <!-- Settings at Bottom -->
             <div class="px-2 pb-4">
-                <a href="{{ route('profile.edit') }}"
+                <a href="{{ route('settings') }}"
                    class="flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors hover:bg-zinc-100 focus:outline-none focus:ring-2 focus:ring-zinc-400 dark:hover:bg-zinc-800 {{ request()->routeIs('profile.edit') || request()->routeIs('user-password.edit') || request()->routeIs('appearance.edit') || request()->routeIs('two-factor.show') ? 'bg-zinc-200 text-zinc-900 dark:bg-zinc-700 dark:text-white' : 'text-zinc-700 dark:text-zinc-300' }}"
                    wire:navigate
                    aria-label="Settings">
                     <flux:icon.cog-6-tooth class="h-6 w-6 shrink-0" />
-                    <span class="whitespace-nowrap opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-                        {{ __('Settings') }}
-                    </span>
                 </a>
-            </div>
-
-            <!-- User Profile -->
-            <div class="border-t border-zinc-200 p-4 dark:border-zinc-700">
-                <flux:dropdown position="top" align="start">
-                    <flux:menu class="w-[220px]">
-                        <flux:menu.item :href="route('profile.edit')" icon="cog" wire:navigate>
-                            {{ __('Settings') }}
-                        </flux:menu.item>
-                        <flux:menu.separator />
-                    </flux:menu>
-                </flux:dropdown>
             </div>
         </aside>
 
