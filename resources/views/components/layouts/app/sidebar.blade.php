@@ -4,128 +4,100 @@
         @include('partials.head')
     </head>
     <body class="min-h-screen bg-white dark:bg-zinc-800">
-        <flux:sidebar sticky stashable class="border-e border-zinc-200 bg-zinc-50 dark:border-zinc-700 dark:bg-zinc-900">
-            <flux:sidebar.toggle class="lg:hidden" icon="x-mark" />
+        <!-- Sidebar - Hover Expandable -->
+        <aside class="group fixed left-0 top-0 z-40 flex h-screen w-16 flex-col overflow-hidden border-r border-zinc-200 bg-zinc-50 transition-all duration-300 ease-in-out hover:w-64 dark:border-zinc-700 dark:bg-zinc-900">
+            <!-- Logo -->
+            <div class="flex h-16 shrink-0 items-center px-4">
+                <a href="{{ route('dashboard') }}" class="flex items-center gap-3" wire:navigate>
+                    <div class="shrink-0">
+                        <x-app-logo-icon class="h-8 w-8" />
+                    </div>
+                    <span class="whitespace-nowrap opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                        {{ config('app.name', 'Laravel') }}
+                    </span>
+                </a>
+            </div>
 
-            <a href="{{ route('dashboard') }}" class="me-5 flex items-center space-x-2 rtl:space-x-reverse" wire:navigate>
-                <x-app-logo />
-            </a>
+            <!-- Navigation Items -->
+            <nav class="flex-1 space-y-1 px-2 py-4">
+                <!-- Dashboard -->
+                <a href="{{ route('dashboard') }}"
+                   class="flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors hover:bg-zinc-100 focus:outline-none focus:ring-2 focus:ring-zinc-400 dark:hover:bg-zinc-800 {{ request()->routeIs('dashboard') ? 'bg-zinc-200 text-zinc-900 dark:bg-zinc-700 dark:text-white' : 'text-zinc-700 dark:text-zinc-300' }}"
+                   wire:navigate
+                   aria-label="Dashboard">
+                    <flux:icon.home class="h-6 w-6 shrink-0" />
+                    <span class="whitespace-nowrap opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                        {{ __('Dashboard') }}
+                    </span>
+                </a>
 
-            <flux:navlist variant="outline">
-                <flux:navlist.group :heading="__('Platform')" class="grid">
-                    <flux:navlist.item icon="home" :href="route('dashboard')" :current="request()->routeIs('dashboard')" wire:navigate>{{ __('Dashboard') }}</flux:navlist.item>
-                </flux:navlist.group>
-            </flux:navlist>
+                <!-- Version Control -->
+                <a href="{{ route('version-control') }}"
+                   class="flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors hover:bg-zinc-100 focus:outline-none focus:ring-2 focus:ring-zinc-400 dark:hover:bg-zinc-800 {{ request()->routeIs('version-control') ? 'bg-zinc-200 text-zinc-900 dark:bg-zinc-700 dark:text-white' : 'text-zinc-700 dark:text-zinc-300' }}"
+                   wire:navigate
+                   aria-label="Version Control">
+                    <flux:icon.code-bracket class="h-6 w-6 shrink-0" />
+                    <span class="whitespace-nowrap opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                        {{ __('Version Control') }}
+                    </span>
+                </a>
 
-            <flux:spacer />
+                <!-- Planning -->
+                <a href="{{ route('planning') }}"
+                   class="flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors hover:bg-zinc-100 focus:outline-none focus:ring-2 focus:ring-zinc-400 dark:hover:bg-zinc-800 {{ request()->routeIs('planning') ? 'bg-zinc-200 text-zinc-900 dark:bg-zinc-700 dark:text-white' : 'text-zinc-700 dark:text-zinc-300' }}"
+                   wire:navigate
+                   aria-label="Planning">
+                    <flux:icon.clipboard-document-list class="h-6 w-6 shrink-0" />
+                    <span class="whitespace-nowrap opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                        {{ __('Planning') }}
+                    </span>
+                </a>
 
-            <flux:navlist variant="outline">
-                <flux:navlist.item icon="folder-git-2" href="https://github.com/laravel/livewire-starter-kit" target="_blank">
-                {{ __('Repository') }}
-                </flux:navlist.item>
+                <!-- Deployment -->
+                <a href="{{ route('deployment') }}"
+                   class="flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors hover:bg-zinc-100 focus:outline-none focus:ring-2 focus:ring-zinc-400 dark:hover:bg-zinc-800 {{ request()->routeIs('deployment') ? 'bg-zinc-200 text-zinc-900 dark:bg-zinc-700 dark:text-white' : 'text-zinc-700 dark:text-zinc-300' }}"
+                   wire:navigate
+                   aria-label="Deployment">
+                    <flux:icon.rocket-launch class="h-6 w-6 shrink-0" />
+                    <span class="whitespace-nowrap opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                        {{ __('Deployment') }}
+                    </span>
+                </a>
+            </nav>
 
-                <flux:navlist.item icon="book-open-text" href="https://laravel.com/docs/starter-kits#livewire" target="_blank">
-                {{ __('Documentation') }}
-                </flux:navlist.item>
-            </flux:navlist>
+            <!-- Spacer -->
+            <div class="flex-1"></div>
 
-            <!-- Desktop User Menu -->
-            <flux:dropdown class="hidden lg:block" position="bottom" align="start">
-                <flux:profile
-                    :name="auth()->user()->name"
-                    :initials="auth()->user()->initials()"
-                    icon:trailing="chevrons-up-down"
-                />
+            <!-- Settings at Bottom -->
+            <div class="px-2 pb-4">
+                <a href="{{ route('profile.edit') }}"
+                   class="flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors hover:bg-zinc-100 focus:outline-none focus:ring-2 focus:ring-zinc-400 dark:hover:bg-zinc-800 {{ request()->routeIs('profile.edit') || request()->routeIs('user-password.edit') || request()->routeIs('appearance.edit') || request()->routeIs('two-factor.show') ? 'bg-zinc-200 text-zinc-900 dark:bg-zinc-700 dark:text-white' : 'text-zinc-700 dark:text-zinc-300' }}"
+                   wire:navigate
+                   aria-label="Settings">
+                    <flux:icon.cog-6-tooth class="h-6 w-6 shrink-0" />
+                    <span class="whitespace-nowrap opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                        {{ __('Settings') }}
+                    </span>
+                </a>
+            </div>
 
-                <flux:menu class="w-[220px]">
-                    <flux:menu.radio.group>
-                        <div class="p-0 text-sm font-normal">
-                            <div class="flex items-center gap-2 px-1 py-1.5 text-start text-sm">
-                                <span class="relative flex h-8 w-8 shrink-0 overflow-hidden rounded-lg">
-                                    <span
-                                        class="flex h-full w-full items-center justify-center rounded-lg bg-neutral-200 text-black dark:bg-neutral-700 dark:text-white"
-                                    >
-                                        {{ auth()->user()->initials() }}
-                                    </span>
-                                </span>
-
-                                <div class="grid flex-1 text-start text-sm leading-tight">
-                                    <span class="truncate font-semibold">{{ auth()->user()->name }}</span>
-                                    <span class="truncate text-xs">{{ auth()->user()->email }}</span>
-                                </div>
-                            </div>
-                        </div>
-                    </flux:menu.radio.group>
-
-                    <flux:menu.separator />
-
-                    <flux:menu.radio.group>
-                        <flux:menu.item :href="route('profile.edit')" icon="cog" wire:navigate>{{ __('Settings') }}</flux:menu.item>
-                    </flux:menu.radio.group>
-
-                    <flux:menu.separator />
-
-                    <form method="POST" action="{{ route('logout') }}" class="w-full">
-                        @csrf
-                        <flux:menu.item as="button" type="submit" icon="arrow-right-start-on-rectangle" class="w-full">
-                            {{ __('Log Out') }}
+            <!-- User Profile -->
+            <div class="border-t border-zinc-200 p-4 dark:border-zinc-700">
+                <flux:dropdown position="top" align="start">
+                    <flux:menu class="w-[220px]">
+                        <flux:menu.item :href="route('profile.edit')" icon="cog" wire:navigate>
+                            {{ __('Settings') }}
                         </flux:menu.item>
-                    </form>
-                </flux:menu>
-            </flux:dropdown>
-        </flux:sidebar>
+                        <flux:menu.separator />
+                    </flux:menu>
+                </flux:dropdown>
+            </div>
+        </aside>
 
-        <!-- Mobile User Menu -->
-        <flux:header class="lg:hidden">
-            <flux:sidebar.toggle class="lg:hidden" icon="bars-2" inset="left" />
-
-            <flux:spacer />
-
-            <flux:dropdown position="top" align="end">
-                <flux:profile
-                    :initials="auth()->user()->initials()"
-                    icon-trailing="chevron-down"
-                />
-
-                <flux:menu>
-                    <flux:menu.radio.group>
-                        <div class="p-0 text-sm font-normal">
-                            <div class="flex items-center gap-2 px-1 py-1.5 text-start text-sm">
-                                <span class="relative flex h-8 w-8 shrink-0 overflow-hidden rounded-lg">
-                                    <span
-                                        class="flex h-full w-full items-center justify-center rounded-lg bg-neutral-200 text-black dark:bg-neutral-700 dark:text-white"
-                                    >
-                                        {{ auth()->user()->initials() }}
-                                    </span>
-                                </span>
-
-                                <div class="grid flex-1 text-start text-sm leading-tight">
-                                    <span class="truncate font-semibold">{{ auth()->user()->name }}</span>
-                                    <span class="truncate text-xs">{{ auth()->user()->email }}</span>
-                                </div>
-                            </div>
-                        </div>
-                    </flux:menu.radio.group>
-
-                    <flux:menu.separator />
-
-                    <flux:menu.radio.group>
-                        <flux:menu.item :href="route('profile.edit')" icon="cog" wire:navigate>{{ __('Settings') }}</flux:menu.item>
-                    </flux:menu.radio.group>
-
-                    <flux:menu.separator />
-
-                    <form method="POST" action="{{ route('logout') }}" class="w-full">
-                        @csrf
-                        <flux:menu.item as="button" type="submit" icon="arrow-right-start-on-rectangle" class="w-full">
-                            {{ __('Log Out') }}
-                        </flux:menu.item>
-                    </form>
-                </flux:menu>
-            </flux:dropdown>
-        </flux:header>
-
-        {{ $slot }}
+        <!-- Main Content Area -->
+        <div class="ml-16">
+            {{ $slot }}
+        </div>
 
         @fluxScripts
     </body>
