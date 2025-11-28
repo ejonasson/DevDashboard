@@ -3,7 +3,6 @@
 declare(strict_types=1);
 
 use App\Enums\Integrations;
-use App\Livewire\Settings\GitHub as GitHubComponent;
 use App\Models\Credential;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -31,7 +30,7 @@ test('user can connect with valid token', function () {
 
     $this->actingAs(User::factory()->create());
 
-    Livewire::test(GitHubComponent::class)
+    Livewire::test('settings.⚡github')
         ->set('token', 'ghp_validtoken123456789')
         ->call('connect')
         ->assertHasNoErrors();
@@ -54,7 +53,7 @@ test('user cannot connect with invalid token', function () {
 
     $this->actingAs(User::factory()->create());
 
-    Livewire::test(GitHubComponent::class)
+    Livewire::test('settings.⚡github')
         ->set('token', 'ghp_invalidtoken123456789')
         ->call('connect')
         ->assertHasErrors(['token']);
@@ -67,7 +66,7 @@ test('handles 403 forbidden from GitHub API', function () {
 
     $this->actingAs(User::factory()->create());
 
-    Livewire::test(GitHubComponent::class)
+    Livewire::test('settings.⚡github')
         ->set('token', 'ghp_validlookingtoken123456789')
         ->call('connect')
         ->assertHasErrors(['token']);
@@ -80,7 +79,7 @@ test('handles 429 rate limited from GitHub API', function () {
 
     $this->actingAs(User::factory()->create());
 
-    Livewire::test(GitHubComponent::class)
+    Livewire::test('settings.⚡github')
         ->set('token', 'ghp_validlookingtoken123456789')
         ->call('connect')
         ->assertHasErrors(['token']);
@@ -93,7 +92,7 @@ test('handles network error gracefully', function () {
 
     $this->actingAs(User::factory()->create());
 
-    Livewire::test(GitHubComponent::class)
+    Livewire::test('settings.⚡github')
         ->set('token', 'ghp_validlookingtoken123456789')
         ->call('connect')
         ->assertHasErrors(['token']);
@@ -106,7 +105,7 @@ test('displays connected state when credential exists', function () {
         'integration' => Integrations::GitHub,
     ]);
 
-    Livewire::test(GitHubComponent::class)
+    Livewire::test('settings.⚡github')
         ->assertSet('isConnected', true)
         ->assertSee('Connected');
 });
@@ -118,7 +117,7 @@ test('user can disconnect GitHub account', function () {
         'integration' => Integrations::GitHub,
     ]);
 
-    Livewire::test(GitHubComponent::class)
+    Livewire::test('settings.⚡github')
         ->call('disconnect')
         ->assertHasNoErrors()
         ->assertSet('isConnected', false);
@@ -140,13 +139,13 @@ test('unique constraint enforced by updating existing credential on reconnect', 
     $this->actingAs(User::factory()->create());
 
     // First connect
-    Livewire::test(GitHubComponent::class)
+    Livewire::test('settings.⚡github')
         ->set('token', 'ghp_token_one_123456789')
         ->call('connect')
         ->assertHasNoErrors();
 
     // Second connect (should update, not create another)
-    Livewire::test(GitHubComponent::class)
+    Livewire::test('settings.⚡github')
         ->set('token', 'ghp_token_two_123456789')
         ->call('connect')
         ->assertHasNoErrors();

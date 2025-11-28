@@ -12,7 +12,12 @@
       "Bash(php artisan route:list:*)",
       "Bash(cat:*)",
       "mcp__laravel-boost__get-config",
-      "mcp__laravel-boost__list-available-env-vars"
+      "mcp__laravel-boost__list-available-env-vars",
+      "mcp__laravel-boost__database-schema",
+      "mcp__laravel-boost__application-info",
+      "Bash(xargs ls:*)",
+      "Bash(git -C /Users/erikjonasson/Sites/DevDashboard log --oneline -10)",
+      "Bash(composer show:*)"
     ]
   },
   "enableAllProjectMcpServers": true,
