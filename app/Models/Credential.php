@@ -4,11 +4,14 @@ namespace App\Models;
 
 use App\Enums\Integrations;
 use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Crypt;
 
 class Credential extends Model
 {
+    use HasFactory;
+
     protected $guarded = null;
 
     protected $casts = [
