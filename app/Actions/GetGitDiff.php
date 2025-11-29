@@ -9,57 +9,54 @@ class GetGitDiff
     /**
      * Generate git diff between working tree and selected branch.
      *
-     * @return array{diff: string, stats: array{files: int, insertions: int, deletions: int}}
+     * @return array{files: array<int, array{filename: string, diff: string, insertions: int, deletions: int}>, stats: array{files: int, insertions: int, deletions: int}}
      */
     public function handle(Repository $repository): array
     {
         $escapedPath = escapeshellarg($repository->path);
         $escapedBranch = escapeshellarg($repository->selected_branch);
 
-        // Get diff content
-        $diffCommand = "git -C {$escapedPath} diff {$escapedBranch} 2>&1";
-        exec($diffCommand, $diffOutput, $diffReturnCode);
+        // Get list of changed files with their stats
+        $numstatCommand = "git -C {$escapedPath} diff {$escapedBranch} --numstat 2>&1";
+        exec($numstatCommand, $numstatOutput, $numstatReturnCode);
 
-        $diff = implode("\n", $diffOutput);
+        $files = [];
+        foreach ($numstatOutput as $line) {
+            if (empty(trim($line))) {
+                continue;
+            }
 
-        // Get diff statistics
-        $statsCommand = "git -C {$escapedPath} diff {$escapedBranch} --shortstat 2>&1";
-        exec($statsCommand, $statsOutput, $statsReturnCode);
+            // Parse: "45\t12\tpath/to/file.php"
+            $parts = preg_split('/\t/', $line, 3);
+            if (count($parts) === 3) {
+                $filename = $parts[2];
+                $escapedFilename = escapeshellarg($filename);
 
-        $stats = $this->parseStats($statsOutput[0] ?? '');
+                // Get diff for this specific file
+                $fileDiffCommand = "git -C {$escapedPath} diff {$escapedBranch} -- {$escapedFilename} 2>&1";
+                exec($fileDiffCommand, $fileDiffOutput, $fileDiffReturnCode);
+
+                $files[] = [
+                    'filename' => $filename,
+                    'diff' => implode("\n", $fileDiffOutput),
+                    'insertions' => $parts[0] === '-' ? 0 : (int) $parts[0],
+                    'deletions' => $parts[1] === '-' ? 0 : (int) $parts[1],
+                ];
+
+                $fileDiffOutput = [];
+            }
+        }
+
+        // Calculate total stats
+        $stats = [
+            'files' => count($files),
+            'insertions' => array_sum(array_column($files, 'insertions')),
+            'deletions' => array_sum(array_column($files, 'deletions')),
+        ];
 
         return [
-            'diff' => $diff,
+            'files' => $files,
             'stats' => $stats,
         ];
-    }
-
-    /**
-     * Parse git diff statistics.
-     *
-     * @return array{files: int, insertions: int, deletions: int}
-     */
-    protected function parseStats(string $statsLine): array
-    {
-        $stats = [
-            'files' => 0,
-            'insertions' => 0,
-            'deletions' => 0,
-        ];
-
-        // Parse: " 3 files changed, 45 insertions(+), 12 deletions(-)"
-        if (preg_match('/(\d+)\s+files?\s+changed/', $statsLine, $matches)) {
-            $stats['files'] = (int) $matches[1];
-        }
-
-        if (preg_match('/(\d+)\s+insertions?\(\+\)/', $statsLine, $matches)) {
-            $stats['insertions'] = (int) $matches[1];
-        }
-
-        if (preg_match('/(\d+)\s+deletions?\(-\)/', $statsLine, $matches)) {
-            $stats['deletions'] = (int) $matches[1];
-        }
-
-        return $stats;
     }
 }
