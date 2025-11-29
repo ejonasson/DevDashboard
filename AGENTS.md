@@ -217,7 +217,6 @@ avatar, badge, brand, breadcrumbs, button, callout, checkbox, dropdown, field, h
 ## Livewire Core
 - Use the `search-docs` tool to find exact version specific documentation for how to write Livewire & Livewire tests.
 - Use the `php artisan make:livewire [Posts\CreatePost]` artisan command to create new components
-- This project uses Livewire 4's single-file components, which allow a component's PHP logic and Blade templates to co-exist in the same file
 - State should live on the server, with the UI reflecting it.
 - All Livewire requests hit the Laravel backend, they're like regular HTTP requests. Always validate form data, and run authorization checks in Livewire actions.
 
@@ -258,37 +257,6 @@ avatar, badge, brand, breadcrumbs, button, callout, checkbox, dropdown, field, h
         $this->get('/posts/create')
         ->assertSeeLivewire(CreatePost::class);
     </code-snippet>
-
-
-=== livewire/v4 rules ===
-
-## Livewire 4
-
-### Single-File Components
-- Livewire 4 supports single-file components, allowing a component's PHP logic and Blade templates to co-exist in the same file
-- Single-file components eliminate the need for separate view files
-- Use `php artisan make:livewire` to create new single-file components
-
-<code-snippet name="Livewire 4 Single-File Component Example" lang="php">
-<?php
-
-use Livewire\Component;
-
-new class extends Component
-{
-    public $count = 0;
-
-    public function increment(): void
-    {
-        $this->count++;
-    }
-}; ?>
-
-<div>
-    <h1>Count: {{ $count }}</h1>
-    <button wire:click="increment">+</button>
-</div>
-</code-snippet>
 
 
 === pint/core rules ===
