@@ -1,5 +1,5 @@
 {
-    "name": "laravel-dev",
+    "name": "tarmac-dev",
     "version": "1.0.0",
     "description": "An awesome app built with NativePHP",
     "main": "./out/main/index.js",

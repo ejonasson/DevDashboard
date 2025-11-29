@@ -19,7 +19,15 @@
       "Bash(git -C /Users/erikjonasson/Sites/DevDashboard log --oneline -10)",
       "Bash(composer show:*)",
       "Bash(php artisan make:migration:*)",
-      "Bash(php artisan:*)"
+      "Bash(php artisan:*)",
+      "Bash(sort:*)",
+      "mcp__laravel-boost__tinker",
+      "mcp__laravel-boost__browser-logs",
+      "mcp__laravel-boost__last-error",
+      "mcp__laravel-boost__read-log-entries",
+      "Bash(test:*)",
+      "WebFetch(domain:github.com)",
+      "Bash(git -C /Users/erikjonasson/Sites/DevDashboard log --oneline --max-count=10)"
     ]
   },
   "enableAllProjectMcpServers": true,

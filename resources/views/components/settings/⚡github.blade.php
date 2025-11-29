@@ -73,11 +73,6 @@ new class extends Component
 
         $this->reset('isConnected', 'username', 'avatarUrl', 'connectedAt');
     }
-
-    public function render(): \Illuminate\View\View
-    {
-        return view('components.settings.⚡github');
-    }
 }; ?>
 
 <section class="w-full">
