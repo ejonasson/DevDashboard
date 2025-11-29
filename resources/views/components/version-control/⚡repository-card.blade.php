@@ -1,5 +1,6 @@
 <?php
 
+use App\Actions\CheckUncommittedChanges;
 use App\Actions\GetGitDiff;
 use App\Models\Repository;
 use Livewire\Attributes\On;
@@ -15,10 +16,17 @@ new class extends Component
 
     public int $selectedFileIndex = 0;
 
+    public function mount(): void
+    {
+        // Check for uncommitted changes on mount
+        $this->checkUncommittedChanges();
+    }
+
     #[On('repository-added')]
     public function refresh(): void
     {
         $this->repository = $this->repository->fresh();
+        $this->checkUncommittedChanges();
     }
 
     public function makeActive(): void
@@ -67,6 +75,11 @@ new class extends Component
             $this->selectedFileIndex = $index;
         }
     }
+
+    public function checkUncommittedChanges(): array
+    {
+        return app(CheckUncommittedChanges::class)->handle($this->repository);
+    }
 };
 ?>
 
@@ -85,6 +98,27 @@ new class extends Component
                 <flux:text variant="subtle">
                     {{ __('Comparing against:') }} <span class="font-semibold">{{ $repository->selected_branch }}</span>
                 </flux:text>
+
+                @php
+                    $uncommittedStatus = $this->checkUncommittedChanges();
+                @endphp
+
+                @if ($uncommittedStatus['hasChanges'])
+                    <flux:callout variant="warning" size="sm" class="mt-2">
+                        <strong>{{ __('This branch has uncommitted changes') }}</strong>
+                        <div class="text-xs mt-1">
+                            @if ($uncommittedStatus['staged'] > 0)
+                                <span>{{ __(':count staged', ['count' => $uncommittedStatus['staged']]) }}</span>
+                            @endif
+                            @if ($uncommittedStatus['staged'] > 0 && $uncommittedStatus['unstaged'] > 0)
+                                <span> • </span>
+                            @endif
+                            @if ($uncommittedStatus['unstaged'] > 0)
+                                <span>{{ __(':count unstaged', ['count' => $uncommittedStatus['unstaged']]) }}</span>
+                            @endif
+                        </div>
+                    </flux:callout>
+                @endif
             </div>
         </div>
 
